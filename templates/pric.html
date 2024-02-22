@@ -1,0 +1,305 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Used Car Price Predictor</title>
+
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+
+     <style>
+        body {
+
+            margin: 0;
+            padding: 0;
+            background-image: url('https://as2.ftcdn.net/v2/jpg/01/11/93/65/1000_F_111936586_PQsD2IM3HAYrwW9ZvAl56Q5v09iBt1P8.jpg');
+
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: #fff; /* Set text color to contrast with the background */
+            text-align: center;
+            padding: 50px; /* Adjust padding as needed */
+
+            font-family: Arial, sans-serif;
+            background-color: #3498db;
+            color: #333;
+            margin: 50;
+            padding: 500;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+
+            }
+
+         .container {
+            text-align: right;
+            padding: 12px;
+            border-radius: 15px;
+            box-shadow: 100 200 10px rgba(10, 10, 10, 0.1);
+            background-color: #8FD7C7;
+        }
+
+        h1 {
+            color: #000000;
+        }
+
+        p {
+            line-height: 15.6;
+        }
+
+        a {
+            color: #e74c3c;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+     </style>
+
+       <div class="container">
+                <div class="textblock" style="width: 110%">
+                  <h1 align="center">Used Car Price Prediction Model</h1>
+                </div>
+            </div>
+
+</head>
+<body>
+    <div class="container mt-5">
+        <h3 class="text-center">Enter Details</h3>
+        <form method="POST"
+                    action="/classify">
+        <div class="row">
+            <div class="col-md-6">
+                <form method="POST" action="/classify">
+
+                    <div class="form-group">
+                        <label for="year">Number of year</label>
+                         <input type="number" class="form-control" name="year" placeholder="Enter year">
+
+<!--                        </select>-->
+<!--                        <input type="number" class="form-control" name="year" placeholder="Enter Year (eg. 2016,..)">-->
+
+                    </div>
+                    <div class="form-group">
+                        <label for="manufacturer">Company</label>
+                        <select class="form-control" name="manufacturer">
+                            <option value=10>Select Company Name</option>
+                            <option value=3>Audi</option>
+                            <option value=4>BMW</option>
+                            <option value=9>Datsun</option>
+                            <option value=12>Fiat</option>
+                            <option value=13>Ford</option>
+                            <option value=16>Honda</option>
+                            <option value=17>Hyundai</option>
+                            <option value=19>Jaguar</option>
+                            <option value=20>Jeep</option>
+                            <option value=21>Kia</option>
+                            <option value=22>Land Rover</option>
+                            <option value=30>Nissan</option>
+                            <option value=37>Tesla</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cylinders">Cylinders</label>
+                        <select class="form-control" name="cylinders">
+                            <option value=10>Select No.Cylinders</option>
+                            <option value=0>3 Cylinders</option>
+                            <option value=1>4 Cylinders</option>
+                            <option value=2>5 Cylinders</option>
+                            <option value=3>6 Cylinders</option>
+                            <option value=4>8 Cylinders</option>
+                            <option value=5>10 Cylinders</option>
+                            <option value=6>12 Cylinders</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fuel">Fuel Type</label>
+                        <select class="form-control" name="fuel">
+                            <option value=10>Select Fuel</option>
+                            <option value=0>diesel</option>
+                            <option value=1>electric</option>
+                            <option value=2>gas</option>
+                            <option value=3>hybrid</option>
+                        </select>
+                    </div>
+           </div>
+            <div class="col-md-6">
+
+                    <div class="form-group">
+                        <label for="odometer">Distance Travelled</label>
+                        <input type="number" class="form-control" name="odometer" placeholder="Enter distance cover">
+<!--                         <select class="form-control" name="odometer">-->
+<!--                            <option value=0>diesel</option>-->
+<!--                            <option value=1>electric</option>-->
+<!--                            <option value=2>gas</option>-->
+<!--                            <option value=3>hybrid</option>-->
+<!--                        </select>-->
+                    </div>
+                    <div class="form-group">
+                        <label for="drive">Drive Type</label>
+                        <select class="form-control" name="drive">
+                            <option value=10>Select Drive Type</option>
+                            <option value=0>4WD (Four-Wheel Drive)</option>
+                            <option value=1>FWD (Front-Wheel Drive)</option>
+                            <option value=2>RWD (Rear-Wheel Drive)</option>
+                        </select>
+                    </div>
+
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 text-center">
+                <button id="submit-button" class="btn btn-success">Submit</button>
+                <h2>
+                    <label><b>Price($$):   {{result}}</b></label>
+                </h2>
+            </div>
+        </div>
+        </form>
+<!--         <div class="container mt-5">-->
+<!--        -->
+<!--            <img src="/home/apurva/Desktop/JB/pqr.jpeg" alt="Healthy Image" class="img-fluid" style="max-width:50px;" align= "right">-->
+<!--       -->
+    </div>
+    </div>
+     <script>
+    // Get a reference to the submit button by its id
+    const submitButton = document.getElementById('submit-button');
+
+    // Add a click event listener to the button
+    submitButton.addEventListener('click', function(event) {
+
+
+        // Define the URL of the new webpage you want to open
+        const newPageUrl = 'file:///home/apurva/Desktop/JB/1result.html'; // Replace with your desired URL
+
+        // Redirect to the new webpage
+        window.location.href = newPageUrl;
+
+    });
+</script>
+
+    <!-- Include Bootstrap JS and jQuery for dropdown functionality (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
+
+
+
+<!--<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"><html><head><META http-equiv="Content-Type" content="text/html; charset=utf-8"><style></style></head><body><u></u>-->
+
+
+
+
+
+
+
+<!--<div background="https://ci6.googleusercontent.com/proxy/60C4_nJa-6el2U4iAtLroWCphCGybBXuDvDN39iCH_wadyJZu8VP7Ofza5cmZuZnHD7dF3birLuNg6wBEsMOUUb1gj7XaUEodk0PXXdF0R5EnWtHgYG7piiOfQ=s0-d-e1-ft#https://miro.medium.com/v2/resize:fit:5120/1*GsImz-edoeuqCMfKxDus0w.jpeg">-->
+
+<!--    <div class="m_container">-->
+<!--        <h1 style="text-align:center"><b>xyz</b></h1>-->
+<!--        <h5 style="text-align:center">&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;abc-&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</h5>-->
+<!--        <form method="POST" action="/classify">-->
+<!--<br>-->
+<!--            <div class="m_row" align="center">-->
+<!--                <div class="m_row">-->
+<!--                    <div>-->
+<!--                        <label>year: <input class="m_form-control" name="year" type="number"></label>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+<!--                <div class="m_row">-->
+
+<!--                     <label for="manufacturer">Manufacturer</label>&ndash;&gt;-->
+<!--                        <select class="form-control" name="manufacturer">-->
+<!--                            <option value=3>Audi</option>-->
+<!--                            <option value=4>BMW</option>-->
+<!--                            <option value=9>Datsun</option>-->
+<!--                            <option value=12>Fiat</option>-->
+<!--                            <option value=13>Ford</option>-->
+<!--                            <option value=16>Honda</option>-->
+<!--                            <option value=17>Hyundai</option>-->
+<!--                            <option value=19>Jaguar</option>-->
+<!--                            <option value=20>Jeep</option>-->
+<!--                            <option value=21>Kia</option>-->
+<!--                            <option value=22>Land Rover</option>-->
+<!--                            <option value=30>Nissan</option>-->
+<!--                            <option value=37>Tesla</option>-->
+<!--                        </select>-->
+
+<!--                </div>-->
+
+<!--                <div class="m_row">-->
+<!--                     <label for="cylinders">cylinders</label>-->
+<!--                   <select class="form-control" name="cylinders">&ndash;&gt;-->
+<!--                            <option value=0>3 Cylinders</option>-->
+<!--                            <option value=1>4 Cylinders</option>-->
+<!--                            <option value=2>5 Cylinders</option>-->
+<!--                            <option value=3>6 Cylinders</option>-->
+<!--                            <option value=4>8 Cylinders</option>-->
+<!--                            <option value=5>10 Cylinders</option>-->
+<!--                            <option value=6>12 Cylinders</option>-->
+<!--                   </select>-->
+<!--                </div>-->
+
+<!--                <div class="m_row">-->
+<!--                     <label for="fuel">fuel</label>-->
+<!--                   <select class="form-control" name="fuel">&ndash;&gt;-->
+<!--                            <option value=0>diesel</option>-->
+<!--                            <option value=1>electric</option>-->
+<!--                            <option value=2>gas</option>-->
+<!--                            <option value=3>hybrid</option>-->
+<!--                   </select>-->
+<!--                </div>-->
+
+<!--                <div class="m_row">-->
+<!--                    <div>-->
+<!--                        <label>Odometer: <input class="m_form-control" name="odometer" type="number"></label>-->
+<!--                    </div>-->
+<!--                </div>-->
+
+
+<!--                <div class="m_row">-->
+<!--                     <label for="drive">Drive</label>-->
+<!--                    <select class="form-control" name="drive">&ndash;&gt;-->
+<!--                            <option value=0>4WD (Four-Wheel Drive)</option>-->
+<!--                            <option value=1>FWD (Front-Wheel Drive)</option>-->
+<!--                            <option value=2>RWD (Rear-Wheel Drive)</option>-->
+<!--                    </select>-->
+<!--                </div>-->
+
+<!--            </div>-->
+
+<!--            <h5 align="center">&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;<wbr>&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;&#45;</h5>-->
+
+
+
+<!--<br>-->
+<!--<br>-->
+<!--<br>-->
+
+<!--<div align="center">-->
+<!--    <button class="m_btn m_btn-success">Predict</button>-->
+<!--    <h2>-->
+<!--        <label><b>Temperature: <span>{{ result }} C</span></b></label>-->
+<!--    </h2>-->
+
+
+<!--</div>-->
+<!--        </form>-->
+
+<!--    </div>-->
+<!--</div>-->
+
+<!--</body></html>-->
